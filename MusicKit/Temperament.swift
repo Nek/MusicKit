@@ -82,15 +82,17 @@ public struct Temperament: Equatable, Hashable {
         return lhs.ratios == rhs.ratios
     }
     
-    public var hashValue: Int {
+    public func hash(into hasher: inout Hasher) {
         if let ratio = ratios.first {
-            return ratios.dropFirst().reduce(ratio.hashValue, {
+            return hasher.combine(ratios.dropFirst().reduce(ratio.hashValue, {
                 sum, value in
                 return sum ^ value.hashValue
-            })
+            }))
         }
         else {
-            return 0
+            hasher.combine(0)
         }
+        
+        
     }
 }
